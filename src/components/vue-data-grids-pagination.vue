@@ -1,5 +1,5 @@
 <template>
-  <ul id="vue__data-grids-pagination-list" class="nav">
+  <ul id="vue__data-grids-pagination-list" class="nav align-items-center">
     <li class="nav-item">
       <button
         class="btn btn-light btn-sm border"
@@ -10,7 +10,12 @@
         <span>First</span>
       </button>
     </li>
-    <li
+    <li class="nav-item mx-1">
+       <select v-model.number="currentPage" class="form-control form-control-sm small">
+        <option v-for="page in totalPages" :key="`page_${page}`" :value="page" >Page {{ page }}</option>
+      </select>
+    </li>
+    <!-- <li
       class="nav-item mx-1"
       v-for="page in totalPages"
       :key="`page_link_${page}`"
@@ -23,7 +28,8 @@
       >
         <span>{{ page }}</span>
       </button>
-    </li>
+     
+    </li> -->
     <li class="nav-item">
       <button
         class="btn btn-light btn-sm border"
@@ -79,7 +85,7 @@ export default {
         console.log(err);
         return 0;
       }
-    },
+    }
   },
 
   data() {
