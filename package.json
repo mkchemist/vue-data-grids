@@ -1,11 +1,24 @@
 {
   "name": "vue-data-grids",
   "version": "1.0.0",
-  "description": "",
+  "description": "Vue.js data-tables",
   "main": "dist/vue-data-grids.ssr.js",
   "browser": "dist/vue-data-grids.esm.js",
   "module": "dist/vue-data-grids.esm.js",
   "unpkg": "dist/vue-data-grids.min.js",
+  "keywords": [
+    "data-tables", "datatables", "dataTables","vue-data-tables",
+    "data-grids", "vue-data-grids"
+  ],
+  "author": {
+    "email": "m.k_chemist@yahoo.com",
+    "name": "Mohamed Kamal",
+    "url": "https://github.com/mkchemist"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mkchemist/vue-data-grids.git"
+  },
   "files": [
     "dist/*",
     "src/**/*.vue"
