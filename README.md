@@ -121,15 +121,16 @@ npm i --save-dev vue-data-grids
        * total rows count
        * to be used in pagination
        * 
+       * e.g 
+       * data => data.total
+       * 
        * default: 0
        */
       total: Function,
       /**
        * headers to be sent with
        * every api request
-       * 
-       * e.g 
-       * data => data.total
+       *
        * 
        * default : {}
        */ 
@@ -140,7 +141,16 @@ npm i --save-dev vue-data-grids
        * 
        * default : {}
        */
-      params: Object
+      params: Object,
+      /**
+       * to load data one time only 
+       * this option is used when load all data in one time
+       * to apply pagination, sort and search in client side
+       * without fetching api every time you update your table
+       * 
+       * default false
+       */
+      once: Boolean
     },
     /**
      * table columns
@@ -220,6 +230,53 @@ npm i --save-dev vue-data-grids
      * 
      * default : Oops! something went wrong
      */
-    errorMessage: String
+    errorMessage: String,
+    /**
+     * on Query Update 
+     * 
+     * callback that invoked when table updated
+     * it will pass a config parameter to the given function 
+     * config parameter : {
+     *    query: table query,
+     *    ajax: ajax configuration
+     * }
+     */
+    onQueryUpdate: Function
   }
 ```
+
+## slots
+- Buttons slot
+```html
+  <template v-slot:table-buttons></template>
+```
+- Table Header And Data slots
+  How slot work ?
+  Table headers slot :all  white spaces in column title replaced by _ and.
+  ```
+      "My Name Is" => "my_name_is"
+  ```
+  > if you want to add slot in table header simpler add suffix _col to end of name.
+
+
+  ```js
+  let columns = [
+    {
+      title: "Email",
+      data: "email"
+    },
+    {
+      title: "User Full Name",
+      data:"user.full_name"
+    }
+  ]
+
+  // table header slot
+  <template v-slot:email_col></template>
+  <template v-slot:user_full_name_col></template>
+
+  // table data slot
+  <template v-slot:email="data"></template>
+  <template v-slot:user_full_name="{data}"></template>
+
+  ```
