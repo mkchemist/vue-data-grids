@@ -38,40 +38,73 @@
       return {
         columns: [
           {
-            title: "ID",
-            data: "id",
-            searchable: true,
-            sortable: true,
-          },
-          {
-            title: "Name",
-            data: "name",
-            searchable: true,
-            sortable: true,
-          },
-          {
-            title: "Country",
-            data: "country",
-            searchable: true,
-            sortable: true,
-          },
-          {
-            title: "Trips",
-            data: "trips",
-            searchable: true,
-            sortable: true,
-          },
+          title: 'ID',
+          data: 'id',
+          sortable: true
+        },
+        {
+          title: 'Name',
+          data: 'name',
+          searchable:true,
+          sortable:true
+        },
+        {
+          title: "Specialty",
+          data:"specialty",
+          searchable:true,
+          sortable:true
+        },
+        {
+          title: "Workplace",
+          data:"workplace.name",
+          searchable:true,
+          sortable:true
+        },
+        {
+          title: "Plans",
+          data:"plans"
+        },
+        {
+          title: "Address",
+          data:"address",
+          searchable:true,
+          sortable:true
+        },
+        {
+          title: "Brick",
+          data:"brick",
+          searchable:true,
+          sortable:true
+        },
+        {
+          title: "Area",
+          data:"area",
+          searchable:true,
+          sortable:true
+        },
+        {
+          title: "District",
+          data:"district",
+          searchable:true,
+          sortable:true
+        },
+        {
+          title: "Territory",
+          data:"territory",
+          searchable:true,
+          sortable:true
+        },
         ],
         rows: [],
         ajax: {
-          url: "https://api.instantwebtools.net/v1/airlines",
+          url: "http://localhost:8080/api/users",
           data: (data) => {
-            return data;
+            return data.data;
           },
           //total: (data) => data.totalPassengers,
-          once: true,
+          total: (data) => data.total,
           params: {
-            size: 20,
+            api_token: 'UZpJMoeU9OtJLS7'
           },
         },
       };
@@ -82,7 +115,7 @@
         console.log(data);
       },
       onQueryUpdate(config = {}) {
-        config.ajax.params.size = config.query.rpp;
+        //config.ajax.params.size = config.query.rpp;
       }
     },
   });

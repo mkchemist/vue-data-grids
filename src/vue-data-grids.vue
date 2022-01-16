@@ -637,9 +637,9 @@
             query: this.query,
             ajax: this.ajax,
           });
-          if (this.serverSide && !this.ajax.once) {
-            this.startTableDataFetching(this.query.page);
-          }
+        }
+        if (this.serverSide && !this.ajax.once) {
+          this.startTableDataFetching(this.query.page);
         }
       },
     },
