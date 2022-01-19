@@ -1,4 +1,4 @@
-import { cloneDeep, get } from "lodash";
+import { cloneDeep, get } from 'lodash';
 
 /**
  * convert the given string to snake case
@@ -9,11 +9,11 @@ import { cloneDeep, get } from "lodash";
  * @returns {String}
  */
 export function toSnakeCase(value) {
-  if (typeof value !== "string") {
-    return value;
-  }
+	if (typeof value !== 'string') {
+		return value;
+	}
 
-  return value.replace(/\s+/g, "_").toLowerCase();
+	return value.replace(/\s+/g, '_').toLowerCase();
 }
 
 /**
@@ -25,22 +25,22 @@ export function toSnakeCase(value) {
  * @return {Array} 
  */
 export function searchTableData(container = [], searchable = [], search = '') {
-  let data = new Set();
-  container.map(row => {
-    searchable.map(col => {
-      let val = get(row, col.data, null);
-      if(val === null) {
-        return;
-      }
-      if(typeof val === 'function') {
-        val = val(row)
-      }
-      if(val.toString().toUpperCase().includes(search.toString().toUpperCase())) {
-        data.add(row);
-      }
-    })
-  });
-  return Array.from(data);
+	let data = new Set();
+	container.map(row => {
+		searchable.map(col => {
+			let val = get(row, col.data, null);
+			if(val === null) {
+				return;
+			}
+			if(typeof val === 'function') {
+				val = val(row);
+			}
+			if(val.toString().toUpperCase().includes(search.toString().toUpperCase())) {
+				data.add(row);
+			}
+		});
+	});
+	return Array.from(data);
 }
 
 /**
@@ -52,37 +52,37 @@ export function searchTableData(container = [], searchable = [], search = '') {
  * @param {String} dir 
  * @returns {Array}
  */
-export function sortTableData(container = [], column = {}, dir = "asc") {
-  /**
+export function sortTableData(container = [], column = {}, dir = 'asc') {
+	/**
    * cloning data
    */
-  let data = cloneDeep(container);
-  /**
+	let data = cloneDeep(container);
+	/**
    * sort factor 
    */
-  let factor = dir === 'asc' ? 1 : -1;
+	let factor = dir === 'asc' ? 1 : -1;
   
-  data = data.sort(function(a,b) {
-    let val1 = get(a, column.data);
-    if(typeof val === 'function') {
-      val1 = val(a)
-    }
-    let val2 = get(b, column.data);
-    if(typeof val === 'function') {
-      val2 = val(b)
-    }
+	data = data.sort(function(a,b) {
+		let val1 = get(a, column.data);
+		if(typeof val === 'function') {
+			val1 = val1(a);
+		}
+		let val2 = get(b, column.data);
+		if(typeof val2 === 'function') {
+			val2 = val2(b);
+		}
 
 
-    if(val1 > val2) {
-      return 1 * factor
-    } else if(val2 > val1) {
-      return -1  * factor
-    } else {
-      return 0
-    }
+		if(val1 > val2) {
+			return 1 * factor;
+		} else if(val2 > val1) {
+			return -1  * factor;
+		} else {
+			return 0;
+		}
 
-  });
-  return data;
+	});
+	return data;
 }
 
 /**
@@ -93,13 +93,13 @@ export function sortTableData(container = [], column = {}, dir = "asc") {
  * @returns {String}
  */
 export const prepareServerSideRequestParameter = (params = {}) => {
-  let parameters = [];
-  Object.keys(params).map(key => {
-    let val = params[key];
-    if(val !== null) {
-      parameters.push(`${key}=${params[key]}`)
-    }
-  });
+	let parameters = [];
+	Object.keys(params).map(key => {
+		let val = params[key];
+		if(val !== null) {
+			parameters.push(`${key}=${params[key]}`);
+		}
+	});
 
-  return `?${parameters.join('&')}`
-} 
+	return `?${parameters.join('&')}`;
+}; 

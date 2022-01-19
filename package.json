@@ -2,13 +2,18 @@
   "name": "vue-data-grids",
   "version": "1.0.3",
   "description": "Vue.js data-tables",
+  "license": "MIT",
   "main": "dist/vue-data-grids.ssr.js",
   "browser": "dist/vue-data-grids.esm.js",
   "module": "dist/vue-data-grids.esm.js",
   "unpkg": "dist/vue-data-grids.min.js",
   "keywords": [
-    "data-tables", "datatables", "dataTables","vue-data-tables",
-    "data-grids", "vue-data-grids"
+    "data-tables",
+    "datatables",
+    "dataTables",
+    "vue-data-tables",
+    "data-grids",
+    "vue-data-grids"
   ],
   "author": {
     "email": "m.k_chemist@yahoo.com",
@@ -44,6 +49,8 @@
     "@vue/cli-service": "^4.5.13",
     "bootstrap": "4.6",
     "cross-env": "^7.0.3",
+    "eslint": "^8.7.0",
+    "eslint-plugin-vue": "^8.3.0",
     "lodash": "^4.17.21",
     "minimist": "^1.2.5",
     "rimraf": "^3.0.2",

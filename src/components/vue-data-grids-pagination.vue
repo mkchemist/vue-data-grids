@@ -44,102 +44,100 @@
 </template>
 
 <script>
-import { VueDataGridsDefaultRPP } from "../constants";
+import { VueDataGridsDefaultRPP } from '../constants';
 export default {
-  props: {
-    /**
+	props: {
+		/**
      * result per page
      */
-    rpp: {
-      type: Number,
-      default: () => VueDataGridsDefaultRPP,
-    },
-    /**
+		rpp: {
+			type: Number,
+			default: () => VueDataGridsDefaultRPP,
+		},
+		/**
      * total rows count
      */
-    total: {
-      type: Number,
-    },
-    /**
+		total: {
+			type: Number,
+		},
+		/**
      * current page
      */
-    page: {
-      type: Number,
-    },
-    /**
+		page: {
+			type: Number,
+		},
+		/**
      * on page change callback
      */
-    onPageChange: {
-      type: Function,
-    },
-  },
+		onPageChange: {
+			type: Function,
+		},
+	},
 
-  computed: {
-    /**
+	computed: {
+		/**
      * total pages
      */
-    totalPages() {
-      try {
-        return Math.ceil(this.total / this.rpp);
-      } catch (err) {
-        console.log(err);
-        return 0;
-      }
-    }
-  },
+		totalPages() {
+			try {
+				return Math.ceil(this.total / this.rpp);
+			} catch (err) {
+				console.log(err);
+				return 0;
+			}
+		}
+	},
 
-  data() {
-    return {
-      /**
+	data() {
+		return {
+			/**
        * current active page
        */
-      currentPage: this.page,
-    };
-  },
+			currentPage: this.page,
+		};
+	},
 
-  watch: {
-    /**
+	watch: {
+		/**
      * watching change of result per page
      */
-    rpp: function () {
-      this.adjustCurrentPage();
-    },
-    /**
+		rpp: function () {
+			this.adjustCurrentPage();
+		},
+		/**
      * watching change of current active page
      */
-    currentPage: function () {
-      if (this.onPageChange) {
-        this.onPageChange(this.currentPage);
-      }
-    },
-  },
+		currentPage: function () {
+			if (this.onPageChange) {
+				this.onPageChange(this.currentPage);
+			}
+		},
+	},
 
-  methods: {
-    /**
+	methods: {
+		/**
      * select Page
      *
      * @param {Number} page
      */
-    selectPage(page) {
-      this.currentPage = page;
-    },
-    /**
+		selectPage(page) {
+			this.currentPage = page;
+		},
+		/**
      * adjust current page when changing
      * result page page option
      *
      *
      */
-    adjustCurrentPage() {
-      let total = this.total,
-        rpp = this.rpp,
-        page = this.currentPage,
-        currentTotal = this.rpp * this.currentPage;
+		adjustCurrentPage() {
+			let total = this.total,
+				currentTotal = this.rpp * this.currentPage;
 
-      if (currentTotal > total) {
-        this.currentPage = this.totalPages;
-      }
-    },
-  },
+			if (currentTotal > total) {
+				this.currentPage = this.totalPages;
+			}
+		},
+	},
 };
 </script>
 

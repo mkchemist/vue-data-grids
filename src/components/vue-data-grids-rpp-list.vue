@@ -19,55 +19,55 @@
 
 <script>
 import {
-  VueDataGridsDefaultRPP,
-  VueDataGridsDefaultRPPList,
-} from "../constants";
+	VueDataGridsDefaultRPP,
+	VueDataGridsDefaultRPPList,
+} from '../constants';
 export default {
-  name: "vue-data-grids-rpp-list",
+	name: 'vue-data-grids-rpp-list',
 
-  props: {
-    /**
+	props: {
+		/**
      * table result per page
      */
-    rpp: {
-      type: Number,
-      default: () => VueDataGridsDefaultRPP,
-    },
-    /**
+		rpp: {
+			type: Number,
+			default: () => VueDataGridsDefaultRPP,
+		},
+		/**
      * table result per page option
      */
-    rpp_list: {
-      type: Array,
-      default: () => VueDataGridsDefaultRPPList,
-    },
-    /**
+		rpp_list: {
+			type: Array,
+			default: () => VueDataGridsDefaultRPPList,
+		},
+		/**
      * on rpp list changed
      */
-    onRPPChange: {
-      type: Function,
-    },
-  },
+		onRPPChange: {
+			type: Function,
+		},
+	},
 
-  data() {
-    return {
-      /**
+	data() {
+		return {
+			/**
        * selected rpp
        */
-      selected: this.rpp,
-    };
-  },
+			selected: this.rpp,
+		};
+	},
 
-  watch: {
-    /**
+	watch: {
+		/**
      * invoke onRPPChange when
      * current rpp changed
      */
-    selected: function () {
-      if (this.onRPPChange) {
-        this.onRPPChange(this.selected);
-      }
-    },
-  },
+		selected: function () {
+			if (this.onRPPChange) {
+				this.onRPPChange(this.selected);
+			}
+		},
+	},
 };
 </script>
 

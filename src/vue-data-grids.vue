@@ -54,7 +54,7 @@
                 <input
                   type="checkbox"
                   name="vue__data-grids-all-checkbox"
-                  id="vue__data-grids-all-checkbox"
+                  id="vue__data-grids-all-checkbox" ref="checkAllBox"
                   @click="checkAllRows"
                 />
               </th>
@@ -171,307 +171,311 @@
 </template>
 
 <script>
-  import {
-    FAILED,
-    IDLE,
-    LOADING,
-    SUCCEEDED,
-    VueDataGridsDefaultAjaxConfig,
-    VueDataGridsDefaultClasses,
-    VueDataGridsDefaultRPP,
-    VueDataGridsDefaultRPPList,
-    VueDataGridsDefaultTheme,
-  } from "./constants";
-  import {
-    prepareServerSideRequestParameter,
-    searchTableData,
-    sortTableData,
-    toSnakeCase,
-  } from "./utils";
-  import { get } from "lodash";
-  import vueDataGridsSearch from "./components/vue-data-grids-search.vue";
-  import VueDataGridsRppList from "./components/vue-data-grids-rpp-list.vue";
-  import VueDataGridsPagination from "./components/vue-data-grids-pagination.vue";
-  import VueDataGridsInfo from "./components/vue-data-grids-info.vue";
-  import VueDataGridsThemesList from "./components/vue-data-grids-themes-list.vue";
-  import VueDataGridsProcessing from "./components/vue-data-grids-processing.vue";
-  export default {
-    components: {
-      vueDataGridsSearch,
-      VueDataGridsRppList,
-      VueDataGridsPagination,
-      VueDataGridsInfo,
-      VueDataGridsThemesList,
-      VueDataGridsProcessing,
-    },
-    name: "vue-data-grids",
-    mounted() {
-      if (this.serverSide) {
-        this.startTableDataFetching();
-      }
-    },
-    props: {
-      /**
+import {
+	FAILED,
+	IDLE,
+	LOADING,
+	SUCCEEDED,
+	VueDataGridsDefaultAjaxConfig,
+	VueDataGridsDefaultClasses,
+	VueDataGridsDefaultRPP,
+	VueDataGridsDefaultRPPList,
+	VueDataGridsDefaultTheme,
+} from './constants';
+import {
+	prepareServerSideRequestParameter,
+	searchTableData,
+	sortTableData,
+	toSnakeCase,
+} from './utils';
+import { get } from 'lodash';
+import vueDataGridsSearch from './components/vue-data-grids-search.vue';
+import VueDataGridsRppList from './components/vue-data-grids-rpp-list.vue';
+import VueDataGridsPagination from './components/vue-data-grids-pagination.vue';
+import VueDataGridsInfo from './components/vue-data-grids-info.vue';
+import VueDataGridsThemesList from './components/vue-data-grids-themes-list.vue';
+import VueDataGridsProcessing from './components/vue-data-grids-processing.vue';
+export default {
+	components: {
+		vueDataGridsSearch,
+		VueDataGridsRppList,
+		VueDataGridsPagination,
+		VueDataGridsInfo,
+		VueDataGridsThemesList,
+		VueDataGridsProcessing,
+	},
+	name: 'vue-data-grids',
+	mounted() {
+		if (this.serverSide) {
+			this.startTableDataFetching();
+		}
+	},
+	props: {
+		/**
        * is table fetching from api
        */
-      serverSide: {
-        type: Boolean,
-        default: () => false,
-      },
-      /**
+		serverSide: {
+			type: Boolean,
+			default: () => false,
+		},
+		/**
        * ajax configuration in case of server side table
        */
-      ajax: {
-        type: Object,
-        default: () => VueDataGridsDefaultAjaxConfig,
-      },
-      /**
+		ajax: {
+			type: Object,
+			default: () => VueDataGridsDefaultAjaxConfig,
+		},
+		/**
        * columns
        */
-      columns: {
-        type: Array,
-        required: true,
-      },
-      /**
+		columns: {
+			type: Array,
+			required: true,
+		},
+		/**
        * data tables rows
        */
-      rows: {
-        type: Array,
-        default: () => [],
-      },
-      /**
+		rows: {
+			type: Array,
+			default: () => [],
+		},
+		/**
        * table classes
        */
-      classes: {
-        type: Object,
-        default: () => {
-          return {};
-        },
-      },
+		classes: {
+			type: Object,
+			default: () => {
+				return {};
+			},
+		},
 
-      /**
+		/**
        * result per page
        */
-      rpp: {
-        type: Number,
-        default: () => VueDataGridsDefaultRPP,
-      },
-      /**
+		rpp: {
+			type: Number,
+			default: () => VueDataGridsDefaultRPP,
+		},
+		/**
        * result per page options
        */
-      rpp_list: {
-        type: Array,
-        default: () => VueDataGridsDefaultRPPList,
-      },
-      /**
+		rpp_list: {
+			type: Array,
+			default: () => VueDataGridsDefaultRPPList,
+		},
+		/**
        * is table responsive
        *
        */
-      responsive: {
-        type: Boolean,
-        default: () => false,
-      },
-      /**
+		responsive: {
+			type: Boolean,
+			default: () => false,
+		},
+		/**
        * initial sort column
        */
-      sortBy: {
-        type: String,
-        default: () => null,
-      },
-      /**
+		sortBy: {
+			type: String,
+			default: () => null,
+		},
+		/**
        * add checkbox to table
        */
-      checkbox: {
-        type: Boolean,
-        default: () => false,
-      },
-      /**
+		checkbox: {
+			type: Boolean,
+			default: () => false,
+		},
+		/**
        * on select rows callback
        */
-      onSelectRows: {
-        type: Function,
-      },
-      /**
+		onSelectRows: {
+			type: Function,
+		},
+		/**
        * error message
        * incase of ajax request failure
        */
-      errorMessage: {
-        type: String,
-        default: () => "Oops! something went wrong",
-      },
-      /**
+		errorMessage: {
+			type: String,
+			default: () => 'Oops! something went wrong',
+		},
+		/**
        * on update callback
        */
-      onQueryUpdate: {
-        type: Function,
-      },
-    },
+		onQueryUpdate: {
+			type: Function,
+		},
+	},
 
-    computed: {
-      /**
+	computed: {
+		/**
        * table classes container
        */
-      tableClasses() {
-        return {
-          ...VueDataGridsDefaultClasses,
-          ...this.classes,
-        };
-      },
+		tableClasses() {
+			return {
+				...VueDataGridsDefaultClasses,
+				...this.classes,
+			};
+		},
 
-      /**
+		/**
        * all searchable columns
        */
-      searchableColumns() {
-        let searchable = [];
-        this.columns.map((col) => {
-          if (col.searchable) {
-            searchable.push(col);
-          }
-        });
+		searchableColumns() {
+			let searchable = [];
+			this.columns.map((col) => {
+				if (col.searchable) {
+					searchable.push(col);
+				}
+			});
 
-        return searchable;
-      },
+			return searchable;
+		},
 
-      /**
+		/**
        * rows data source
        */
-      dataSource() {
-        let data = this.rows;
-        if (this.serverSide) {
-          data = this.serverSideData.data;
-        }
+		dataSource() {
+			let data = this.rows;
+			if (this.serverSide) {
+				data = this.serverSideData.data;
+			}
 
-        if (!this.ajax.once) {
-          return data;
-        } else {
-          try {
-             let search = this.query.search;
-            if (search && this.searchableColumns.length) {
-              data = searchTableData(data, this.searchableColumns, search);
-            }
+			if (this.serverSide && !this.ajax.once) {
+				return data;
+			} else {
+				try {
+					let search = this.query.search;
+					if (search && this.searchableColumns.length) {
+						data = searchTableData(data, this.searchableColumns, search);
+					}
 
-            /**
+					/**
              * if data is sorted
              */
-            if (this.query.sort_by) {
-              data = sortTableData(
-                data,
-                this.query.sort_by,
-                this.query.sort_direction
-              );
-            }
-            return data;
-          }catch(err) {
-             console.log(err);
-            return data;
-          }
-        }
-      },
+					if (this.query.sort_by) {
+						data = sortTableData(
+							data,
+							this.query.sort_by,
+							this.query.sort_direction
+						);
+					}
+					return data;
+				}catch(err) {
+					console.log(err);
+					return data;
+				}
+			}
+		},
 
-      /**
+		/**
        * get render data
        */
-      renderData() {
-        if (this.serverSide && !this.ajax.once) {
-          return this.dataSource;
-        }
-        let data = this.dataSource;
+		renderData() {
+			if (this.serverSide && !this.ajax.once) {
+				return this.dataSource;
+			}
+			let data = this.dataSource;
 
-        let start = (this.query.page - 1) * this.query.rpp;
+			let start = (this.query.page - 1) * this.query.rpp;
 
-        let end = start + this.query.rpp;
+			let end = start + this.query.rpp;
 
-        return data.slice(start, end);
-      },
-      /**
+			return data.slice(start, end);
+		},
+		/**
        * total rows count
        */
-      totalRowsCount() {
-        if (this.serverSide) {
-          if (this.ajax.once) {
-            this.serverSideData.data.length;
-          } else {
-            return this.serverSideData.total;
-          }
-        }
-        return this.dataSource.length;
-      },
-      /**
+		totalRowsCount() {
+			if (this.serverSide) {
+				if (this.ajax.once) {
+					this.serverSideData.data.length;
+				} else {
+					return this.serverSideData.total;
+				}
+			}
+			return this.dataSource.length;
+		},
+		/**
        * detect if table is processing or not
        */
-      isProcessing() {
-        if (this.serverSide && this.serverSideData.status === LOADING) {
-          return true;
-        }
-        return false;
-      },
-    },
+		isProcessing() {
+			if (this.serverSide && this.serverSideData.status === LOADING) {
+				return true;
+			}
+			return false;
+		},
+	},
 
-    data() {
-      return {
-        query: {
-          /**
+	data() {
+		return {
+			query: {
+				/**
            * query result per page
            */
-          rpp: this.rpp,
-          /**
+				rpp: this.rpp,
+				/**
            * query search
            */
-          search: null,
-          /**
+				search: null,
+				/**
            * query current page
            */
-          page: 1,
-          /**
+				page: 1,
+				/**
            * sort by
            */
-          sort_by: this.getSortByColumn(this.sortBy),
-          /**
+				sort_by: this.getSortByColumn(this.sortBy),
+				/**
            * sort direction
            */
-          sort_direction: "asc",
-          /**
+				sort_direction: 'asc',
+				/**
            * selected rows
            */
-          selected: [],
-        },
+				selected: [],
+			},
 
-        /**
+			/**
          * table theme
          */
-        theme: VueDataGridsDefaultTheme,
-        /**
+			theme: VueDataGridsDefaultTheme,
+			/**
          * server side data in case of server side
          */
-        serverSideData: {
-          /* returned data */
-          data: [],
-          /** request status */
-          status: IDLE,
-          /* request error */
-          error: null,
-          /** total rows count */
-          total: 0,
-          /**
+			serverSideData: {
+				/* returned data */
+				data: [],
+				/** request status */
+				status: IDLE,
+				/* request error */
+				error: null,
+				/** total rows count */
+				total: 0,
+				/**
            * ajax request headers
            */
-          headers: {},
-          /** ajax request query params */
-          params: {},
-        },
-      };
-    },
+				headers: {},
+				/** ajax request query params */
+				params: {},
+			},
+		};
+	},
 
-    watch: {
-      "query.selected": function () {
-        if (!this.serverSide && this.onSelectRows) {
-          this.onSelectRows(this.query.selected);
-        }
-      },
-    },
+	watch: {
+		'query.selected': function () {
+			if (this.onSelectRows) {
+				this.onSelectRows(this.query.selected);
+			}
+		},
+		'dataSource' : function() {
+			this.query.selected = [];
+			this.$refs.checkAllBox.checked = false;
+		}
+	},
 
-    methods: {
-      /**
+	methods: {
+		/**
        * convert column name to slot name
        *
        * e.g Hello World => HELLO_WORLD
@@ -479,10 +483,10 @@
        * @param {Object} column
        * @return {String}
        */
-      convertColumnNameToSlot(col) {
-        return toSnakeCase(col.title);
-      },
-      /**
+		convertColumnNameToSlot(col) {
+			return toSnakeCase(col.title);
+		},
+		/**
        * get the given path value from the given container
        *
        * @param {Object} row [container]
@@ -490,160 +494,160 @@
        * @param {any} $d [default value incase of not found]
        * @return {any}
        */
-      getDataObjectValue(row, col, $d = null) {
-        return get(row, col.data, $d);
-      },
-      /**
+		getDataObjectValue(row, col, $d = null) {
+			return get(row, col.data, $d);
+		},
+		/**
        * on searching table
        *
        * @param {string}
        */
-      onSearch(value) {
-        this.query.search = value;
-        this.sendUpdateSingle();
-      },
-      /**
+		onSearch(value) {
+			this.query.search = value;
+			this.sendUpdateSingle();
+		},
+		/**
        * on changing number of result per page
        *
        * @param {Number}
        */
-      onRppChange(rpp) {
-        this.query.rpp = rpp;
-        this.sendUpdateSingle();
-      },
-      /**
+		onRppChange(rpp) {
+			this.query.rpp = rpp;
+			this.sendUpdateSingle();
+		},
+		/**
        * on page navigation
        *
        * @param {Number} page
        */
-      onPageChange(page) {
-        this.query.page = page;
-        this.sendUpdateSingle();
-      },
-      /**
+		onPageChange(page) {
+			this.query.page = page;
+			this.sendUpdateSingle();
+		},
+		/**
        * on theme change callback
        *
        * @param {String} theme
        */
-      onThemeChange(theme) {
-        this.theme = theme;
-      },
-      /**
+		onThemeChange(theme) {
+			this.theme = theme;
+		},
+		/**
        * sort table by the given column
        */
-      sortingTableBy(col) {
-        if (
-          this.query.sort_by &&
+		sortingTableBy(col) {
+			if (
+				this.query.sort_by &&
           this.query.sort_by.title === col.title &&
-          this.query.sort_direction === "asc"
-        ) {
-          this.query.sort_direction = "desc";
-        } else {
-          this.query.sort_direction = "asc";
-        }
-        this.query.sort_by = col;
-        this.sendUpdateSingle();
-      },
-      /**
+          this.query.sort_direction === 'asc'
+			) {
+				this.query.sort_direction = 'desc';
+			} else {
+				this.query.sort_direction = 'asc';
+			}
+			this.query.sort_by = col;
+			this.sendUpdateSingle();
+		},
+		/**
        * get sort by column
        *
        * @param {String} column
        * @return {Object}
        */
-      getSortByColumn(column) {
-        let sortByColumn = null;
-        if (column === null) {
-          return sortByColumn;
-        }
-        this.columns.map((col) => {
-          if (col.title === column) {
-            sortByColumn = col;
-          }
-        });
-        return sortByColumn;
-      },
-      /**
+		getSortByColumn(column) {
+			let sortByColumn = null;
+			if (column === null) {
+				return sortByColumn;
+			}
+			this.columns.map((col) => {
+				if (col.title === column) {
+					sortByColumn = col;
+				}
+			});
+			return sortByColumn;
+		},
+		/**
        * check all rows
        *
        * @param {Event} event
        */
-      checkAllRows(event) {
-        if (event.target.checked) {
-          this.query.selected = this.dataSource;
-        } else {
-          this.query.selected = [];
-        }
-      },
-      /**
+		checkAllRows(event) {
+			if (event.target.checked) {
+				this.query.selected = this.dataSource;
+			} else {
+				this.query.selected = [];
+			}
+		},
+		/**
        * mark table as loading
        */
-      markAjaxAsLoading() {
-        this.serverSideData.status = LOADING;
-        this.serverSideData.error = null;
-      },
-      /**
+		markAjaxAsLoading() {
+			this.serverSideData.status = LOADING;
+			this.serverSideData.error = null;
+		},
+		/**
        * prepare ajax request query params
        * @param {Number} page [current page]
        * @return {String}
        */
-      prepareQueryParams(page) {
-        let params;
-        params = prepareServerSideRequestParameter({
-          ...this.serverSideData.params,
-          ...this.ajax.params,
-          page,
-          rpp: this.query.rpp,
-          search: this.query.search,
-          sort_by: this.query.sort_by ? this.query.sort_by.data : null,
-          sort_dir: this.query.sort_direction,
-        });
+		prepareQueryParams(page) {
+			let params;
+			params = prepareServerSideRequestParameter({
+				...this.serverSideData.params,
+				...this.ajax.params,
+				page,
+				rpp: this.query.rpp,
+				search: this.query.search,
+				sort_by: this.query.sort_by ? this.query.sort_by.data : null,
+				sort_dir: this.query.sort_direction,
+			});
 
-        return params;
-      },
-      /**
+			return params;
+		},
+		/**
        * start fetch from api end point
        */
-      startTableDataFetching(page = 1) {
-        if (!this.serverSide) {
-          return;
-        }
-        let { url, data, total } = this.ajax;
-        this.markAjaxAsLoading();
-        let params = this.prepareQueryParams(page);
-        fetch(url + params, {
-          headers: this.ajax.headers,
-          credentials: "same-origin",
-        })
-          .then((res) => res.json())
-          .then((json) => {
-            this.serverSideData.data = data(json);
-            this.serverSideData.status = SUCCEEDED;
-            if (total) {
-              this.serverSideData.total = total(json);
-            }
-          })
-          .catch((err) => {
-            console.log(err)
-            this.serverSideData.error = err;
-            this.serverSideData.status = FAILED;
-          });
-      },
-      /**
+		startTableDataFetching(page = 1) {
+			if (!this.serverSide) {
+				return;
+			}
+			let { url, data, total } = this.ajax;
+			this.markAjaxAsLoading();
+			let params = this.prepareQueryParams(page);
+			fetch(url + params, {
+				headers: this.ajax.headers,
+				credentials: 'same-origin',
+			})
+				.then((res) => res.json())
+				.then((json) => {
+					this.serverSideData.data = data(json);
+					this.serverSideData.status = SUCCEEDED;
+					if (total) {
+						this.serverSideData.total = total(json);
+					}
+				})
+				.catch((err) => {
+					console.log(err);
+					this.serverSideData.error = err;
+					this.serverSideData.status = FAILED;
+				});
+		},
+		/**
        * send update signal on query update
        */
-      sendUpdateSingle() {
-        if (this.onQueryUpdate) {
-          this.onQueryUpdate({
-            query: this.query,
-            ajax: this.ajax,
-          });
-        }
-        if (this.serverSide && !this.ajax.once) {
-          this.startTableDataFetching(this.query.page);
-        }
-      },
-    },
-  };
+		sendUpdateSingle() {
+			if (this.onQueryUpdate) {
+				this.onQueryUpdate({
+					query: this.query,
+					ajax: this.ajax,
+				});
+			}
+			if (this.serverSide && !this.ajax.once) {
+				this.startTableDataFetching(this.query.page);
+			}
+		},
+	},
+};
 </script>
 
 <style>

@@ -11,35 +11,35 @@
 
 <script>
 export default {
-  name: "vue-data-grids-search",
+	name: 'vue-data-grids-search',
 
-  props: {
-    onSearch: {
-      type: Function,
-    },
-  },
+	props: {
+		onSearch: {
+			type: Function,
+		},
+	},
 
-  data() {
-    return {
-      /**
+	data() {
+		return {
+			/**
        * search data model
        */
-      search: null,
-    };
-  },
+			search: null,
+		};
+	},
 
-  watch: {
-    /**
+	watch: {
+		/**
      * invoke onSearch callback if exists
      * when search data model changed
      *
      */
-    search: function () {
-      if (this.onSearch) {
-        this.onSearch(this.search.trim());
-      }
-    },
-  },
+		search: function () {
+			if (this.onSearch) {
+				this.onSearch(this.search.trim());
+			}
+		},
+	},
 };
 </script>
 
