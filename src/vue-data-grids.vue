@@ -504,7 +504,7 @@ export default {
        */
 		onSearch(value) {
 			this.query.search = value;
-			this.sendUpdateSingle();
+			this.sendUpdateSignal();
 		},
 		/**
        * on changing number of result per page
@@ -513,7 +513,7 @@ export default {
        */
 		onRppChange(rpp) {
 			this.query.rpp = rpp;
-			this.sendUpdateSingle();
+			this.sendUpdateSignal();
 		},
 		/**
        * on page navigation
@@ -522,7 +522,7 @@ export default {
        */
 		onPageChange(page) {
 			this.query.page = page;
-			this.sendUpdateSingle();
+			this.sendUpdateSignal();
 		},
 		/**
        * on theme change callback
@@ -546,7 +546,7 @@ export default {
 				this.query.sort_direction = 'asc';
 			}
 			this.query.sort_by = col;
-			this.sendUpdateSingle();
+			this.sendUpdateSignal();
 		},
 		/**
        * get sort by column
@@ -635,7 +635,7 @@ export default {
 		/**
        * send update signal on query update
        */
-		sendUpdateSingle() {
+		sendUpdateSignal() {
 			if (this.onQueryUpdate) {
 				this.onQueryUpdate({
 					query: this.query,

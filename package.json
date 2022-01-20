@@ -1,6 +1,6 @@
 {
   "name": "vue-data-grids",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "Vue.js data-tables",
   "license": "MIT",
   "main": "dist/vue-data-grids.ssr.js",
