@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <div class="container p-5 bg-white shadow">
-     <!--  <vue-data-grids
+      <vue-data-grids
         :columns="columns"
         sortBy="Name"
         :responsive="true"
@@ -11,10 +11,9 @@
         :serverSide="true"
         :ajax="ajax"
         :onQueryUpdate="onQueryUpdate"
-        :checkbox="true"
       >
-      </vue-data-grids> -->
-      <vue-data-grids
+      </vue-data-grids>
+      <!-- <vue-data-grids
         :columns="columns"
         sortBy="Name"
         :rows="rows"
@@ -25,7 +24,7 @@
         :onQueryUpdate="onQueryUpdate"
         :checkbox="true"
       >
-      </vue-data-grids>
+      </vue-data-grids> -->
     </div>
   </div>
 </template>

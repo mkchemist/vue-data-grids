@@ -470,7 +470,9 @@ export default {
 		},
 		'dataSource' : function() {
 			this.query.selected = [];
-			this.$refs.checkAllBox.checked = false;
+			if(this.checkbox) {
+				this.$refs.checkAllBox.checked = false;
+			}
 		}
 	},
 
